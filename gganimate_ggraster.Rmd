@@ -130,9 +130,6 @@ loggerwerte <- loggerwerte %>%
   )
 
 
-loggerwerte %>%
-  ggplot(aes(y,temperatur)) + geom_point()
-
 
 
 coordinates_add <- function(input){
@@ -181,29 +178,52 @@ maxval <- max(interpolated_df$var1.pred)
 
 ```{r}
 
+
+# pow <- function(data,power){data^power}
+# 
+# library(rayshader)
+# mat <- interpolated_df %>%
+#   filter(hour == 1) %>%
+#   dplyr::select(1:3) %>%
+#   spread(2,3) %>%
+#   as.matrix() %>%
+#   pow(2)
+# 
+# mat%>%
+#   sphere_shade() %>%
+#   plot_3d(mat)
+
+```
+
+
+
+```{r, fig.width=12,fig.height=20}
+
 library(ggisoband)
 anim <- interpolated_df %>%
   mutate(hour = as.integer(hour)) %>%
   # filter(hour < 2) %>%
   ggplot(aes(coords.x1,coords.x2)) +
   geom_raster(aes(fill = var1.pred)) +
-  geom_isobands(binwidth = 5, aes(z = var1.pred), fill = NA,  polygon_outline = T)  +
+  geom_isobands(binwidth = 10, aes(z = var1.pred), fill = NA,  polygon_outline = T)  +
   geom_sf(data = tische_sf, fill = NA,inherit.aes = F) +
   scale_fill_viridis_c(name = "Temperatur", limits = c(minval,maxval)) +
-  geom_point(data = as.data.frame(loggerwerte), aes(x,y),fill = NA,shape = 1,inherit.aes = F) +
+  geom_point(data = as.data.frame(loggerwerte), aes(x,y),fill = NA,shape = 4,inherit.aes = F) +
   geom_text(data = loggerwerte, aes(x,y,label = format(round(temperatur,1),nsmall = 1)),nudge_x = 0.15,nudge_y = 0.15,size = 2,) +
-  # labs(title="Uhrzeit: {closest_state}")+
   labs(title="Uhrzeit: {frame_time}")+
   theme(
+    plot.background = element_rect(fill = "lightgrey"),
     axis.title = element_blank(),
     panel.grid.minor = element_line(linetype = 3,colour = "grey"),
     panel.grid.major = element_line(linetype = 2,colour = "black"),
     panel.background = element_rect(fill = "white"),
-  ) +
-  transition_time(hour)
+  ) +   transition_time(hour)
 
 
-animate(anim, fps = 10, duration = 20)
+```
+
+```{r gganimate = list(fps = 10,duration = 20), fig.height=15}
+anim
 ```
 
 

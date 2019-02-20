@@ -1,0 +1,12 @@
+name: 2019_02_gewaechshausmonitoring
+title: 2019_02_GewaechshausMonitoring
+username: rata
+account: rata
+server: rstudio-pubs.zhaw.ch
+hostUrl: https://rstudio-pubs.zhaw.ch/__api__
+appId: 8
+bundleId: 21
+url: https://rstudio-pubs.zhaw.ch/content/8/
+when: 1548767988.72126
+asMultiple: FALSE
+asStatic: FALSE

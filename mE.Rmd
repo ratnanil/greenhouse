@@ -1,0 +1,29 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+## R Markdown
+
+
+
+```{r fig.height=10}
+
+library(ggplot2,quietly = T)
+library(gganimate,quietly = T)
+
+
+ggplot(airquality, aes(Day, Temp)) + 
+  geom_point(size = 2, colour = 'steelblue') + 
+  transition_states(Month) + 
+  shadow_mark(size = 1, colour = 'grey')
+
+
+animate(p,duration = 5)
+
+```
+
